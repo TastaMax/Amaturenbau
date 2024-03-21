@@ -1,0 +1,3 @@
+.ecommerce-gallery img:not(.ecommerce-disabled):not(.ecommerce-gallery-main-img).active {
+    border-color: #00aaff!important;
+}

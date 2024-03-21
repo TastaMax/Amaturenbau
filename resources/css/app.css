@@ -1,0 +1,65 @@
+/*
+        Font & Icons
+*/
+@import "@fortawesome/fontawesome-free/css/fontawesome.css";
+@import "@fortawesome/fontawesome-free/css/brands.css";
+@import "@fortawesome/fontawesome-free/css/solid.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/400-italic.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/500-italic.css";
+@import "@fontsource/roboto/700.css";
+@import "@fontsource/roboto/700-italic.css";
+
+/*
+         Package
+*/
+@import '~mdb-ui-kit/css/mdb.min.css';
+
+/* Custome */
+@import "/resources/css/custome.css";
+
+/* Login */
+@import "/resources/css/login.css";
+
+/* Header */
+@import "/resources/css/header.css";
+
+[data-mdb-theme=dark] .login-card {
+    background: hsla(0, 0%, 17%, 0.75);
+    backdrop-filter: blur(30px);
+    color: var(--mdb-light-text-emphasis);
+}
+[data-mdb-theme=light] .login-card {
+    background: hsla(0, 0%, 100%, 0.75);
+    backdrop-filter: blur(30px);
+    color: var(--mdb-dark-text-emphasis);
+}
+
+/*
+
+Body
+
+ */
+main {
+    min-height: 100vh;
+}
+
+/*
+
+Dashboard
+
+ */
+.empty-circle {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 10px solid #28a745; /* Farbe "success" in Bootstrap 5 */
+    background-color: transparent;
+}
+.schedule{
+    max-height: 33vh;
+}
+.color-blue{
+    color: #00aaff;
+}
