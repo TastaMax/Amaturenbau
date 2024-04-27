@@ -28,9 +28,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <a class="btn btn-primary" href="/shopware/sync/migrate-category">Migriere SubKategorie</a>
-                            <a class="btn btn-primary" href="/shopware/sync/migrate-productclass">Migriere Produktklasse</a>
-                            <a class="btn btn-primary" href="/shopware/sync/migrate-product">Migriere Produkt</a>
+                            <a class="btn btn-primary" href="/shopware/sync/migrate">Migriere Excel</a>
                         </div>
                     </div>
                 </div>

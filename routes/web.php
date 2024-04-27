@@ -11,10 +11,9 @@ use App\Http\Controllers\Management\Settings\SettingsController;
 use App\Http\Controllers\ShopWare\CategoryController;
 use App\Http\Controllers\ShopWare\ProductclassController;
 use App\Http\Controllers\Startup\StartupController;
+use App\Http\Controllers\Sync\NIFIController;
 use App\Http\Controllers\Sync\SyncController;
-use App\Migration\MigrationCategoryController;
-use App\Migration\MigrationProductclassController;
-use App\Migration\MigrationProductController;
+use App\Migration\MigrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +40,7 @@ Route::post('/startup', [StartupController::class, 'store'])->name('startup');
 Route::get('/login', [AuthenticationController::class, 'index']);
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
+Route::get('/nifi', [NIFIController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
@@ -114,9 +114,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/category', [SyncController::class, 'category']);
             Route::get('/subcategory', [SyncController::class, 'subcategory']);
             Route::get('/product', [SyncController::class, 'product']);
-            Route::get('/migrate-category', [MigrationCategoryController::class, 'migrate']);
-            Route::get('/migrate-productclass', [MigrationProductclassController::class, 'migrate']);
-            Route::get('/migrate-product', [MigrationProductController::class, 'migrate']);
+            Route::get('/migrate', [MigrationController::class, 'index'])->name('sync');
+            //Route::get('/migrate-category', [MigrationCategoryController::class, 'migrate']);
+            //Route::get('/migrate-productclass', [MigrationProductclassController::class, 'migrate']);
+            //Route::get('/migrate-product', [MigrationProductController::class, 'migrate']);
         });
 
     });

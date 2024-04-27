@@ -18,15 +18,15 @@ class Kernel extends ConsoleKernel
      **/
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call(function () {
+        /*$schedule->call(function () {
             (new SyncController)->category();
             (new SchedulesController)->updateSchedules('ShopWare6 Sync', 'Kategorie Synchronisieren');
-        })->everySecond();//->everyTenMinutes()->weekdays()->between('7:00', '18:00');
+        })->everySecond();//->everyTenMinutes()->weekdays()->between('7:00', '18:00');*/
 
-        $schedule->call(function () {
+        /*$schedule->call(function () {
             (new SyncController)->subcategory();
             (new SchedulesController)->updateSchedules('ShopWare6 Sync', 'Unterkategorie Synchronisieren');
-        })->everySecond();//->everyTenMinutes()->weekdays()->between('7:00', '18:00');
+        })->everySecond();//->everyTenMinutes()->weekdays()->between('7:00', '18:00');*/
     }
 
     /**

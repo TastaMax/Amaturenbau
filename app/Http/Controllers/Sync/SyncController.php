@@ -247,8 +247,6 @@ class SyncController extends Controller
 
        dd($this->shopwareApiClient->sync('product', 'product', 'upsert', $payloadProducts));
 
-
-
         return true;
     }
 
