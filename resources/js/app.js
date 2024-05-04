@@ -27,6 +27,8 @@ import './notifications/notifications.jsonformatter.js';
 // Category
 import './shopware/category/categorys.datatable.js';
 import './shopware/category/subcategorys.datatable.js';
+// SubCategory
+import './shopware/subcategory/subcategorys.datatable.js';
 // Productclass
 import './shopware/productclass/productclass.datatable.js';
 import './shopware/productclass/productclass.ecommerce-gallery.js';

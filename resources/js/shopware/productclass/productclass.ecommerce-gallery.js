@@ -7,7 +7,7 @@ function ready () {
     if(document.getElementById('ecommerce-gallery')) {
         const elementGallery = document.querySelector('.ecommerce-gallery');
         const instanceEcomerceGallery = new EcommerceGallery(elementGallery);
-        instanceEcomerceGallery.init();
+        //instanceEcomerceGallery.init();
     }
 }
 

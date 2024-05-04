@@ -39,7 +39,7 @@ class SWProductClass extends Model
 
     public function pictures()
     {
-        return $this->hasMany(SWPicture::class, 'assignment_id', 'id')->where('type', 1);
+        return $this->hasMany(SWPicture::class, 'assignment_id', 'id')->where('type', 1)->orderBy('pos', 'asc');
     }
 
     public function variantHeaders()

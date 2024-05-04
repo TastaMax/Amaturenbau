@@ -22,6 +22,8 @@ class ProductclassController extends Controller
     {
         $productclass = $request->productclass;
         $productclass = SWProductClass::find($productclass);
+        $pictures = $productclass->pictures()->get();
+        $hasPictures = $pictures->isNotEmpty();
 
         if (!$productclass) {
             return redirect('/shopware/produktklasse/')->with([
@@ -31,7 +33,8 @@ class ProductclassController extends Controller
 
         return view('pages/shopware/productclass/edit', [
             'productclass' => $productclass,
-            'pictures' => $productclass->pictures()
+            'pictures' => $pictures,
+            'hasPictures' => $hasPictures
         ]);
     }
 

@@ -10,19 +10,19 @@
         "ext-ldap": "*",
         "directorytree/ldaprecord-laravel": "^v3.3.2",
         "guzzlehttp/guzzle": "^7.8.1",
-        "laravel/framework": "^v10.48.8",
+        "laravel/framework": "^v10.48.10",
         "laravel/sanctum": "^v3.3.3",
         "laravel/tinker": "^v2.9.0",
         "league/csv": "^9.15.0"
     },
     "require-dev": {
         "fakerphp/faker": "^v1.23.1",
-        "laravel/pint": "^v1.15.1",
+        "laravel/pint": "^v1.15.3",
         "laravel/sail": "^v1.29.1",
         "mockery/mockery": "^1.6.11",
         "nunomaduro/collision": "^v7.10.0",
-        "phpunit/phpunit": "^10.5.19",
-        "spatie/laravel-ignition": "^2.5.2"
+        "phpunit/phpunit": "^10.5.20",
+        "spatie/laravel-ignition": "^2.7.0"
     },
     "autoload": {
         "psr-4": {

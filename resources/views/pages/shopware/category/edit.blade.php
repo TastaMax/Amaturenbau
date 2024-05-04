@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h2>
                                 {{ $category->title }}
-                                <a href="/shopware/kategorie/" class="btn btn-primary float-end">Zurück</a>
+                                <a href="/shopware/kategorie/" class="btn btn-primary float-end">Übersicht</a>
                             </h2>
                         </div>
                         <form action="{{ route('swCategoryEdit') }}" method="POST">
@@ -53,6 +53,7 @@
                                             <label for="title_en" class="form-label">Titel Englisch</label>
                                         </div>
                                     </div>
+                                    @if( config('app.app_seo') )
                                     <hr>
                                     <h3>SEO</h3>
                                     <div class="col-md-12">
@@ -73,6 +74,7 @@
                                             <label for="meta_keywords" class="form-label">Meta Beschreibung</label>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -113,7 +115,7 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
-                            <div id="subCategorysDatatable" data-mdb-loading="true" data-mdb-datatable-init="true"></div>
+                            <div id="subCategorysObtainDatatable" data-mdb-loading="true" data-mdb-datatable-init="true"></div>
                         </div>
                     </div>
                 </div>

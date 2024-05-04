@@ -50,6 +50,7 @@ return [
     'app_startup' => env('APP_STARTUP'),
     'app_company' => env('APP_COMPANY'),
     'app_update' => env('APP_UPDATE'),
+    'app_seo' => env('APP_SEO'),
 
     /*
     |--------------------------------------------------------------------------

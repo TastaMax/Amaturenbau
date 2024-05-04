@@ -10,6 +10,7 @@ use App\Http\Controllers\Management\Logs\SchedulesController;
 use App\Http\Controllers\Management\Settings\SettingsController;
 use App\Http\Controllers\ShopWare\CategoryController;
 use App\Http\Controllers\ShopWare\ProductclassController;
+use App\Http\Controllers\ShopWare\SubCategoryController;
 use App\Http\Controllers\Startup\StartupController;
 use App\Http\Controllers\Sync\NIFIController;
 use App\Http\Controllers\Sync\SyncController;
@@ -58,12 +59,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{logs}', [LogsStorageController::class, 'getStorageLogEntries']);
             Route::get('/clear/{logs}', [LogsStorageController::class, 'clearStorageLogs'])->name('clear.logs');
         });
-
     });
 
     Route::get('/get-risks', [RisksController::class, 'getRisks']);
     Route::get('/get-schedules', [SchedulesController::class, 'getScheduleEntries']);
-
 
     Route::prefix('notifications')->group(function () {
         Route::get('/', [LogsController::class, 'index']);
@@ -85,14 +84,26 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [CategoryController::class, 'index']);
             Route::get('/editieren/{category}', [CategoryController::class, 'edit']);
             Route::get('/erstellen', [CategoryController::class, 'create']);
+            //Frontend Routes
             Route::prefix('json')->group(function () {
                 Route::get('/getCategory', [CategoryController::class, 'getCategory']);
                 Route::get('/getSubCategory/{id}', [CategoryController::class, 'getSubCategoryData']);
             });
-
             Route::get('/delete/{category}', [CategoryController::class, 'delete']);
+            //POST Routes
             Route::post('/swCategoryCreate', [CategoryController::class, 'saveCategory'])->name('swCategoryCreate');
             Route::post('/swCategoryEdit', [CategoryController::class, 'editCategory'])->name('swCategoryEdit');
+        });
+
+        Route::prefix('unterkategorie')->group(function () {
+            Route::get('/', [SubCategoryController::class, 'index']);
+            Route::get('/editieren/{subcategory}', [SubCategoryController::class, 'edit']);
+            //Frontend Routes
+            Route::prefix('json')->group(function () {
+                Route::get('/getSubCategory', [SubCategoryController::class, 'getSubCategory']);
+            });
+            //POST Routes
+            Route::post('/swSubCategoryEdit', [SubCategoryController::class, 'subEditCategory'])->name('swSubCategoryEdit');
         });
 
 

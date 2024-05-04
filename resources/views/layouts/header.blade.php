@@ -28,6 +28,9 @@
                 <li class="nav-item p-1 d-flex justify-content-center @if(Str::startsWith(request()->path(), 'shopware/kategorie')) active @endif">
                     <a class="nav-link nav-link-ltr" href="{{ url('/shopware/kategorie') }}" title="Kategorien">Kategorien</a>
                 </li>
+                <li class="nav-item p-1 d-flex justify-content-center @if(Str::startsWith(request()->path(), 'shopware/unterkategorie')) active @endif">
+                    <a class="nav-link nav-link-ltr" href="{{ url('/shopware/unterkategorie') }}" title="Kategorien">Unterkategorien</a>
+                </li>
                 <li class="nav-item p-1 d-flex justify-content-center @if(Str::startsWith(request()->path(), 'shopware/produktklasse')) active @endif">
                     <a class="nav-link nav-link-ltr" href="{{ url('/shopware/produktklasse') }}" title="Produktklassen">Produktklassen</a>
                 </li>

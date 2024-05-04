@@ -49,6 +49,7 @@
                                             <label for="title_en" class="form-label">Titel Englisch</label>
                                         </div>
                                     </div>
+                                    @if( config('app.app_seo') )
                                     <hr>
                                     <h3>SEO</h3>
                                     <div class="col-md-12">
@@ -69,6 +70,7 @@
                                             <label for="meta_keywords" class="form-label">Meta Keywords (Mit Leerzeichen trennen)</label>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-footer">

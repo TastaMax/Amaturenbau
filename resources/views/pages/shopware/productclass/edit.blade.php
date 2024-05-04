@@ -29,35 +29,30 @@
         <!-- Container for demo purpose -->
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <div id="ecommerce-gallery" class="ecommerce-gallery">
                                 <div class="row">
-                                    @if(is_array($pictures))
-                                        <div class="col-12 mb-4">
-                                            <div class="lightbox shadow-4 rounded-5">
-                                                <img
-                                                    src="https://mdbootstrap.com/img/Photos/new-design-blocks/ecommerce/29.jpg"
-                                                    alt="Backpack 1"
-                                                    class="ecommerce-gallery-main-img active w-100 h-auto"/>
+                                    @if($hasPictures)
+                                        @foreach($pictures as $key => $picture)
+                                            @if($key === 1)
+                                                <div class="col-12 mb-4">
+                                                    <div class="lightbox shadow-4 rounded-5">
+                                                        <img
+                                                            src="http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/{{ $picture->file }}"
+                                                            alt="Bild {{ $key + 1 }}"
+                                                            class="ecommerce-gallery-main-img active w-100 h-auto"/>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <div class="col-12">
+                                                <img src="http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/{{ $picture->file }}"
+                                                     data-mdb-img="http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/{{ $picture->file }}"
+                                                     alt="Bild {{ $key + 1 }}"
+                                                     class="{{ $key == 0 ? 'active' : '' }} w-100 shadow-4 rounded-5"/>
                                             </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="https://mdbootstrap.com/img/Photos/new-design-blocks/ecommerce/29.jpg"
-                                                 data-mdb-img="https://mdbootstrap.com/img/Photos/new-design-blocks/ecommerce/29.jpg"
-                                                 alt="Backpack 1" class="active w-100 shadow-4 rounded-5"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="https://mdbootstrap.com/img/Photos/new-templates/img28.jpg"
-                                                 data-mdb-img="https://mdbootstrap.com/img/Photos/new-templates/img28.jpg"
-                                                 alt="Backpack 2" class="w-100 shadow-4 rounded-5"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="https://mdbootstrap.com/img/Photos/new-templates/img27.jpg"
-                                                 data-mdb-img="https://mdbootstrap.com/img/Photos/new-templates/img27.jpg"
-                                                 alt="Backpack 3" class="w-100 shadow-4 rounded-5"/>
-                                        </div>
+                                        @endforeach
                                     @else
                                         <div class="col-12 mb-4">
                                             <div class="lightbox shadow-4 rounded-5">
@@ -78,16 +73,11 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-8">
+                <div class="col-md-8 mb-3">
                     <div class="card">
                         <div class="card-body">
-
                             <h2 class="fw-bold mb-3">{{ $productclass->title }}</h2>
-
-
                             <form action="{{ route('swCategoryEdit') }}" method="POST">
-
                                 @csrf
                                 <div class="row">
                                     <h3>Allgemein</h3>
@@ -108,125 +98,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <h3>Produkttext</h3>
-                                    <!-- Pills navs -->
-                                    <ul class="nav nav-pills mb-3" id="ex1" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a
-                                                data-mdb-pill-init
-                                                class="nav-link active"
-                                                id="ex1-tab-1"
-                                                href="#ex1-pills-1"
-                                                role="tab"
-                                                aria-controls="ex1-pills-1"
-                                                aria-selected="true"
-                                            >Deutsch</a
-                                            >
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a
-                                                data-mdb-pill-init
-                                                class="nav-link"
-                                                id="ex1-tab-2"
-                                                href="#ex1-pills-2"
-                                                role="tab"
-                                                aria-controls="ex1-pills-2"
-                                                aria-selected="false"
-                                            >Englisch</a
-                                            >
-                                        </li>
-                                    </ul>
-                                    <!-- Pills navs -->
-
-                                    <!-- Pills content -->
-                                    <div class="tab-content" id="ex1-content">
-                                        <div
-                                            class="tab-pane fade show active"
-                                            id="ex1-pills-1"
-                                            role="tabpanel"
-                                            aria-labelledby="ex1-tab-1"
-                                        >
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="wysiwyg" data-mdb-wysiwyg-init>
-                                                            <br/>
-                                                            <p style="text-align: center;"><img src="https://mdbootstrap.com/wp-content/uploads/2018/06/logo-mdb-jquery-small.webp" class="img-fluid"></p>
-                                                            <h1 style="text-align: center;">MDBootstrap</h1>
-                                                            <p style="text-align: center;">WYSIWYG Editor</p>
-                                                            <p style="text-align: center;"><a href="https://mdbootstrap.com" target="_blank" contenteditable="false" style="font-size: 1rem; text-align: left;">MDBootstrap.com</a>&nbsp;© 2020</p>
-                                                            <p style="text-align: left;"><b>Features:</b></p>
-                                                            <ul>
-                                                                <li>Changing block type</li>
-                                                                <li>Text formatting (bold, italic, strikethrough, underline)</li>
-                                                                <li>Setting text color</li>
-                                                                <li>Setting color highlight</li>
-                                                                <li>Text aligning</li>
-                                                                <li>Creating a list (bulled or numbered)</li>
-                                                                <li>Increase/Decrease indent</li>
-                                                                <li>Inserting links</li>
-                                                                <li>Inserting pictures</li>
-                                                                <li>Insert horizontal line</li>
-                                                                <li>show HTML code</li>
-                                                                <li>Undo/Redo</li>
-                                                            </ul>
-                                                            <p><b>Options:</b></p>
-                                                            <ul>
-                                                                <li>Translations</li>
-                                                                <li>Using your own color palette</li>
-                                                                <li>Disabling/enabling sections</li>
-                                                            </ul>
-                                                            <p><b>Methods:</b></p>
-                                                            <ul>
-                                                                <li>Get HTML code from editor</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="wysiwyg" data-mdb-wysiwyg-init>
-                                                            <br/>
-                                                            <p style="text-align: center;"><img src="https://mdbootstrap.com/wp-content/uploads/2018/06/logo-mdb-jquery-small.webp" class="img-fluid"></p>
-                                                            <h1 style="text-align: center;">MDBootstrap</h1>
-                                                            <p style="text-align: center;">WYSIWYG Editor</p>
-                                                            <p style="text-align: center;"><a href="https://mdbootstrap.com" target="_blank" contenteditable="false" style="font-size: 1rem; text-align: left;">MDBootstrap.com</a>&nbsp;© 2020</p>
-                                                            <p style="text-align: left;"><b>Features:</b></p>
-                                                            <ul>
-                                                                <li>Changing block type</li>
-                                                                <li>Text formatting (bold, italic, strikethrough, underline)</li>
-                                                                <li>Setting text color</li>
-                                                                <li>Setting color highlight</li>
-                                                                <li>Text aligning</li>
-                                                                <li>Creating a list (bulled or numbered)</li>
-                                                                <li>Increase/Decrease indent</li>
-                                                                <li>Inserting links</li>
-                                                                <li>Inserting pictures</li>
-                                                                <li>Insert horizontal line</li>
-                                                                <li>show HTML code</li>
-                                                                <li>Undo/Redo</li>
-                                                            </ul>
-                                                            <p><b>Options:</b></p>
-                                                            <ul>
-                                                                <li>Translations</li>
-                                                                <li>Using your own color palette</li>
-                                                                <li>Disabling/enabling sections</li>
-                                                            </ul>
-                                                            <p><b>Methods:</b></p>
-                                                            <ul>
-                                                                <li>Get HTML code from editor</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Pills content -->
+                                    @if( config('app.app_seo') )
                                     <hr>
                                     <h3>SEO</h3>
                                     <div class="col-md-12">
@@ -252,6 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
 
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-success float-end mx-1">Speichern</button>
@@ -263,10 +136,60 @@
                     </div>
                 </div>
             </div>
-
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Produkttext</h3>
+                        <ul class="nav nav-pills" id="ex1" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a
+                                    data-mdb-pill-init
+                                    class="nav-link active"
+                                    id="ex1-tab-1"
+                                    href="#ex1-pills-1"
+                                    role="tab"
+                                    aria-controls="ex1-pills-1"
+                                    aria-selected="true">Deutsch</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a
+                                    data-mdb-pill-init
+                                    class="nav-link"
+                                    id="ex1-tab-2"
+                                    href="#ex1-pills-2"
+                                    role="tab"
+                                    aria-controls="ex1-pills-2"
+                                    aria-selected="false">Englisch</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mb-3" id="ex1-content">
+                            <div
+                                class="tab-pane fade show active"
+                                id="ex1-pills-1"
+                                role="tabpanel"
+                                aria-labelledby="ex1-tab-1">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="wysiwygGerman border border-1" id="wysiwygGerman"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="wysiwygEnglish border border-1" id="wysiwygEnglish"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Container for demo purpose -->
-
     </section>
 
 @endsection

@@ -6,12 +6,12 @@
         'items' => [
             [
                 'name' => 'Übersicht',
-                'url' => '/shopware/produktklasse',
+                'url' => '/shopware/kategorie',
                 'active' => 0
             ],
             [
                 'name' => 'Erstellen',
-                'url' => '/shopware/produktklasse/erstellen',
+                'url' => '/shopware/kategorie/erstellen',
                 'active' => 1
             ]
         ]
@@ -21,7 +21,7 @@
         <div class="container my-3">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Produktklasse</h1>
+                    <h1>Kategorien</h1>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card px-5 py-5">
                         <div class="card-header">
-                            <h2>Neue Produktklasse erstellen</h2>
+                            <h2>Neue Kategorie erstellen</h2>
                         </div>
                         <form action="{{ route('swCategoryCreate') }}" method="POST">
                             <div class="card-body">
@@ -49,8 +49,8 @@
                                             <label for="title_en" class="form-label">Titel Englisch</label>
                                         </div>
                                     </div>
-                                    @if( config('app.app_seo') )
                                     <hr>
+                                    @if( config('app.app_seo') )
                                     <h3>SEO</h3>
                                     <div class="col-md-12">
                                         <div class="form-outline mb-3" data-mdb-input-init>

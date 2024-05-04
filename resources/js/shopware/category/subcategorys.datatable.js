@@ -1,7 +1,7 @@
 import CustomeDatatables from '/resources/js/partials/datatables';
 import {getIdUrl} from '/resources/js/partials/getIdUrl';
 
-if(document.getElementById('subCategorysDatatable')) {
+if(document.getElementById('subCategorysObtainDatatable')) {
     let idCategory = getIdUrl();
 
     const subColumns = [
@@ -15,14 +15,14 @@ if(document.getElementById('subCategorysDatatable')) {
     const SubCategoryTable = new CustomeDatatables(
         subColumns,
         'datatable-search-input-subcategory',
-        'subCategorysDatatable',
+        'subCategorysObtainDatatable',
         (subcategory) => ({
             ...subcategory,
             id: parseInt(subcategory.id),
             title: subcategory.title,
             status: subcategory.status,
             created_date: Date.parse(subcategory.created_at),
-            action: `<a href="/shopware/kategorie/editieren/${subcategory.id}" class="btn btn-primary btn-sm">Details</a>`
+            action: `<a href="/shopware/unterkategorie/editieren/${subcategory.id}" class="btn btn-primary btn-sm">Details</a>`
         }),
         '/shopware/kategorie/json/getSubCategory/'+idCategory
     );
