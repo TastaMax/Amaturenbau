@@ -61,20 +61,20 @@ class ShopWareClassesController extends Controller
 
                 $export[] = [
                     'active' => true,
-                    'weight' => $product->weight,
+                    'weight' => 0,
                     'width' => 0.0,
                     'height' => 0.0,
                     'length' => 0.0,
 
                     // Allgemeine Informationen
-                    'id' => $product->sw_id,
-                    'name' => $category->title,
-                    'parentId' => $productClass->sw_id,
-                    "productNumber" => $product->articlenumber,
+                    'id' => $productClass->sw_id,
+                    'name' => $productClass->title,
+                    "productNumber" => $productClass->title,
                     'translations' => [
                         'en-GB' => [
-                            'name' => $category->title_en
-                        ]
+                            'name' => $productClass->title_en,
+                            'description' => $productClass->description_en,
+                        ],
                     ],
 
                     // Optionen
@@ -84,9 +84,13 @@ class ShopWareClassesController extends Controller
                     'Images' => [
                         [
                             "URL" => "https://data.shop.ass-automation.com/pictures/1-000-05-00_I.png",
-                            "folderName" => "SWM"
+                            "folderName" => "Produktklasse"
                         ]
                     ],
+
+                    //Description
+                    'description' => $productClass->description,
+
 
                     // Preis Informationen
                     'markAsTopseller' => false,
@@ -101,8 +105,8 @@ class ShopWareClassesController extends Controller
                     'price' => [
                         [
                             'currencyId' => $this->shopWareHelper->getCurrencyId(),
-                            'gross' => $product->price,
-                            'net' => $product->price * 0.81,
+                            'gross' => 11898.81,
+                            'net' => 9999,
                             'linked' => false
                         ]
                     ],
