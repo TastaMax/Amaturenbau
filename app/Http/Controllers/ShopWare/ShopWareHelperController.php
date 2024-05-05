@@ -14,4 +14,19 @@ class ShopWareHelperController extends Controller
         }
         return $randomString;
     }
+
+    public function getCurrencyId(): string
+    {
+        return config('app.shopware_default_currency');
+    }
+
+    public function getTaxId(): string
+    {
+        return config('app.shopware_default_tax');
+    }
+
+    public function getManufacturerId(): string
+    {
+        return config('app.shopware_default_manufacturer');
+    }
 }

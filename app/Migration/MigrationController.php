@@ -189,7 +189,7 @@ class MigrationController extends Controller
 
     private function getArticleValues($values, $productid)
     {
-        $pos = 10;
+        $pos = 1;
         foreach ($values as $key => $variantValue) {
             if ($key === 'Art.-Nr.' || $key === 'Brutto preis' || $key === 'Serie' || $key === 'ID') {
                 break;
@@ -203,7 +203,7 @@ class MigrationController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-            $pos += 10;
+            $pos += 1;
         }
 
         return;

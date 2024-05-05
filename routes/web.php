@@ -41,7 +41,11 @@ Route::post('/startup', [StartupController::class, 'store'])->name('startup');
 Route::get('/login', [AuthenticationController::class, 'index']);
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
-Route::get('/nifi', [NIFIController::class, 'index']);
+Route::prefix('nifi')->group(function () {
+    Route::get('products', [NIFIController::class, 'getJsonProducts']);
+    Route::get('classes', [NIFIController::class, 'getJsonClasses']);
+});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
