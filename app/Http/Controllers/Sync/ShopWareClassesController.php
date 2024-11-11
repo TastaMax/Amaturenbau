@@ -33,6 +33,28 @@ class ShopWareClassesController extends Controller
             $category = $subcategory->category;
             $products = $productClass->products;
             $variantHeaders = $productClass->variantHeaders;
+            $pictures = $productClass->pictures()->get();
+
+            $images = [];
+
+            $shopCategory[] = [
+                "id" => $subcategory->sw_id,
+                'parentId' => config('app.shopware_default_category'),
+                "name" => $subcategory->title,
+                "translations" => [
+                    "en-GB" => [
+                        "name" => $subcategory->title_en,
+                    ],
+                ]
+            ];
+
+
+            foreach ($pictures as $picture) {
+                $images[] = [
+                    "URL" => 'http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/'.$picture->file,
+                    "folderName" => $productClass->title
+                ];
+            }
 
             foreach ($products as $product) {
 
@@ -58,63 +80,58 @@ class ShopWareClassesController extends Controller
                     ];
                     $pos += 10;
                 }
-
-                $export[] = [
-                    'active' => true,
-                    'weight' => 0,
-                    'width' => 0.0,
-                    'height' => 0.0,
-                    'length' => 0.0,
-
-                    // Allgemeine Informationen
-                    'id' => $productClass->sw_id,
-                    'name' => $productClass->title,
-                    "productNumber" => $productClass->title,
-                    'translations' => [
-                        'en-GB' => [
-                            'name' => $productClass->title_en,
-                            'description' => $productClass->description_en,
-                        ],
-                    ],
-
-                    // Optionen
-                    'options' => $options,
-
-                    // Bilder (placeholder, adjust based on your logic)
-                    'Images' => [
-                        [
-                            "URL" => "https://data.shop.ass-automation.com/pictures/1-000-05-00_I.png",
-                            "folderName" => "Produktklasse"
-                        ]
-                    ],
-
-                    //Description
-                    'description' => $productClass->description,
-
-
-                    // Preis Informationen
-                    'markAsTopseller' => false,
-                    'manufacturer' => [
-                        'id' => $this->shopWareHelper->getManufacturerId(),
-                    ],
-                    'maxPurchase' => 0,
-                    'minPurchase' => 1,
-                    'purchaseUnit' => 1,
-                    'restockTime' => 0,
-                    'stock' => 99,
-                    'price' => [
-                        [
-                            'currencyId' => $this->shopWareHelper->getCurrencyId(),
-                            'gross' => 11898.81,
-                            'net' => 9999,
-                            'linked' => false
-                        ]
-                    ],
-                    'tax' => [
-                        'id' => $this->shopWareHelper->getTaxId(),
-                    ],
-                ];
             }
+
+            $export[] = [
+                'active' => true,
+                'weight' => 0,
+                'width' => 0.0,
+                'height' => 0.0,
+                'length' => 0.0,
+
+                // Allgemeine Informationen
+                'id' => $productClass->sw_id,
+                'name' => 'Rubrik '.$productClass->rubrik.' '.$productClass->title,
+                "productNumber" => $productClass->productnumber,
+                'translations' => [
+                    'en-GB' => [
+                        'name' => $productClass->title_en,
+                        'description' => $productClass->description_en,
+                    ],
+                ],
+
+                // Optionen
+                'options' => $options,
+
+                // Bilder (placeholder, adjust based on your logic)
+                'Images' => $images,
+
+                //Description
+                'description' => $productClass->description,
+
+                // Preis Informationen
+                'markAsTopseller' => false,
+                'manufacturer' => [
+                    'id' => $this->shopWareHelper->getManufacturerId(),
+                ],
+                'maxPurchase' => 0,
+                'minPurchase' => 1,
+                'purchaseUnit' => 1,
+                'restockTime' => 0,
+                'stock' => 99,
+                'price' => [
+                    [
+                        'currencyId' => $this->shopWareHelper->getCurrencyId(),
+                        'gross' => 11898.81,
+                        'net' => 9999,
+                        'linked' => false
+                    ]
+                ],
+                'tax' => [
+                    'id' => $this->shopWareHelper->getTaxId(),
+                ],
+                'categories' => $shopCategory,
+            ];
         });
 
         return $export;

@@ -21,6 +21,7 @@ class SWSubCategory extends Model
         'sw_id',
         'sw_edited',
         'sw_deleted',
+        'sw_active',
     ];
 
     public function category()

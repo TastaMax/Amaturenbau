@@ -3,6 +3,7 @@ namespace App\Migration;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ShopWare\ShopWareHelperController;
+use App\Models\SWCategory;
 use App\Models\SWPicture;
 use App\Models\SWProduct;
 use App\Models\SWProductClass;
@@ -26,6 +27,9 @@ class MigrationController extends Controller
 
     public function index()
     {
+        $maincategorys = [];
+        SWCategory::truncate();
+
         $categorys = [];
         SWSubCategory::truncate();
 
@@ -44,8 +48,15 @@ class MigrationController extends Controller
         $variantValues = [];
         SWVariantValue::truncate();
 
+
+        // Hauptkategorie "Produkte" hinzufügen, falls noch nicht vorhanden
+        $idMainCategory = 0;
+        $idCategory = 0;
+
         $csv = $this->csv($this->getFile(storage_path($this->csvPath)));
         foreach ($csv as $daten) {
+            $hauptKategorieDE = $this->removeBreaks($daten['HauptKategorie-DE']); //HauptKategorie-DE
+            $hauptKategorieEN = $this->removeBreaks($daten['HauptKategorie-EN']);
             $kategorieEN = $this->removeBreaks($daten['Kategorie-EN ']);
             $kategorieDE = $this->removeBreaks($daten['Kategorie-DE ']);
             $zeichnung = $this->removeBreaks($daten['Zeichnung ']);
@@ -59,13 +70,36 @@ class MigrationController extends Controller
             $id = $this->removeBreaks($daten['ID ']);
             $rubrik = $this->removeBreaks($daten['Rubrik ']);
 
-            //Kategorie
+            // Überprüfen, ob Hauptkategorie bereits existiert
+            $existingHauptkategorien = array_column($maincategorys, 'title');
+            $hauptKategorieIndex = array_search($hauptKategorieDE, $existingHauptkategorien);
+
+            if ($hauptKategorieIndex === false) { // Falls nicht vorhanden, hinzufügen
+                $idMainCategory++; // Inkrementiere nur bei einer neuen Hauptkategorie
+                $maincategorys[] = [
+                    'id' => $idMainCategory,
+                    'title' => $hauptKategorieDE,
+                    'title_en' => $hauptKategorieEN,
+                    'meta_title' => $hauptKategorieDE,
+                    'sw_id' => $this->swHelper->generateUUID(32),
+                    'sw_edited' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                $hauptKategorieId = $idMainCategory;
+            } else {
+                $hauptKategorieId = $maincategorys[$hauptKategorieIndex]['id']; // Verwende die tatsächliche ID der gefundenen Hauptkategorie
+            }
+
+            // Überprüfen und Hinzufügen der Unterkategorie
             $existingTitles = array_column($categorys, 'title');
-            if (!in_array($kategorieDE, $existingTitles)) {
-                $idCategory = count($categorys)+1;
+            $unterKategorieIndex = array_search($kategorieDE, $existingTitles);
+
+            if ($unterKategorieIndex === false) { // Falls Unterkategorie noch nicht vorhanden
+                $idCategory++; // Inkrementiere nur bei einer neuen Unterkategorie
                 $categorys[] = [
                     'id' => $idCategory,
-                    'swCategory_id' => 1,
+                    'swCategory_id' => $hauptKategorieId, // Verweis auf die tatsächliche ID der Hauptkategorie
                     'title' => $kategorieDE,
                     'title_en' => $kategorieEN,
                     'meta_title' => $kategorieDE,
@@ -74,16 +108,66 @@ class MigrationController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
-            }else {
-                // Finde die Indexposition des vorhandenen Titels
-                $index = array_search($kategorieDE, $existingTitles);
-                $idCategory = $index+1;
+            }
+
+            $productnumber = $rubrik.'-'.$titelDE;
+            if(strlen($productnumber) > 64){
+                $productnumber = str_replace(' ', '', $productnumber);
+            }
+
+            if(strlen($productnumber) > 64)
+            {
+                if (strpos($productnumber, "Standard") !== false) {
+                    // Ersetzen von "Standard" durch "Std."
+                    $productnumber = str_replace("Standard", "Std.", $productnumber);
+                }
+
+                if(strlen($productnumber) > 64) {
+
+                    if (strpos($productnumber, "Verschraubungen") !== false || strpos($productnumber, "Verschraubungs") !== false) {
+                        $productnumber = str_replace("Verschraubungen", "Verschr.", $productnumber);
+                        $productnumber = str_replace("Verschraubungs", "Verschr.", $productnumber);
+                    }
+
+                    if(strlen($productnumber) > 64) {
+                        if (strpos($productnumber, "Winkel") !== false) {
+                            $productnumber = str_replace("Winkel", "W.", $productnumber);
+                        }
+                    }
+
+                    if(strlen($productnumber) > 64) {
+                        if (strpos($productnumber, "GeradeSchweißkegel") !== false) {
+                            $productnumber = str_replace("GeradeSchweißkegel", "GSk.", $productnumber);
+                        }
+                    }
+
+                    if(strlen($productnumber) > 64) {
+                        if (strpos($productnumber, "Reduzierungen") !== false) {
+                            $productnumber = str_replace("Reduzierungen", "Reduz.", $productnumber);
+                        }
+                    }
+
+                    if(strlen($productnumber) > 64) {
+                        if (strpos($productnumber, "Rohrbögen") !== false) {
+                            $productnumber = str_replace("Rohrbögen", "Rohrb.", $productnumber);
+                        }
+                    }
+                }
+
+                if(strlen($productnumber) > 64)
+                {
+                    dd($productnumber);
+                }
+
             }
 
             //Produktklasse
             $productclasses[] = [
                 'id' => $id,
                 'swSubCategory_id' => $idCategory,
+
+                'rubrik' => $rubrik,
+                'productnumber' => $productnumber,
 
                 'title' => $titelDE,
                 'title_en' => $titelEN,
@@ -150,6 +234,11 @@ class MigrationController extends Controller
                     'updated_at' => now(),
                 ];
             }
+        }
+
+        foreach (array_chunk($maincategorys, $this->batchSize) as $batch) {
+            //sleep(1);
+            SWCategory::insert($batch);
         }
 
         foreach (array_chunk($categorys, $this->batchSize) as $batch) {
@@ -235,7 +324,7 @@ class MigrationController extends Controller
 
     private function removeBreaks($string): string
     {
-        return utf8_encode(trim(str_replace(["\r", "\n"], '', $string)));
+        return mb_convert_encoding(trim(str_replace(["\r", "\n"], '', $string)), 'UTF-8', 'ISO-8859-1');
     }
 
     private function getcsvheader($csv): array

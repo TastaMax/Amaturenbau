@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('swSubCategory_id');
 
+            $table->string('rubrik');
+            $table->string('productnumber', 64);
+
             $table->string('title');
             $table->string('title_en')->nullable();
             $table->text('description');
@@ -29,6 +32,7 @@ return new class extends Migration
             $table->string('sw_id');
             $table->boolean('sw_edited')->default(0);
             $table->boolean('sw_deleted')->default(0);
+            $table->boolean('sw_active')->default(0);
 
             $table->timestamps();
         });

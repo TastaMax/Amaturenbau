@@ -22,6 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1>Produktklasse {{ $productclass->id }}</h1>
+                    <h2>Rubrik {{ $productclass->rubrik }}</h2>
                 </div>
             </div>
         </div>
@@ -94,10 +95,18 @@
                                         <div class="form-outline mb-3" data-mdb-input-init>
                                             <input type="text" class="form-control" id="title_en" name="title_en"
                                                    value="{{ $productclass->title_en }}"/>
-                                            <label for="title_en" class="form-label">Titel Englisch</label>
+                                            <label for="title_en" class="form-label">Titel Englisch @include('partials.required')</label>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <div class="col-md-12">
+                                        <div class="form-outline mb-3" data-mdb-input-init>
+                                            <input type="text" class="form-control" id="productnumber" name="productnumber"
+                                                   value="{{ $productclass->productnumber }}" data-mdb-showcounter="true" maxlength="64" required/>
+                                            <label for="productnumber" class="form-label">Produktnummer (max 64 Zeichen)
+                                                @include('partials.required') </label>
+                                            <div class="form-helper"></div>
+                                        </div>
+                                    </div>
                                     @if( config('app.app_seo') )
                                     <hr>
                                     <h3>SEO</h3>
@@ -126,7 +135,7 @@
                                 </div>
                                 @endif
 
-                                <div class="card-footer">
+                                <div class="card-footer mt-3">
                                     <button type="submit" class="btn btn-success float-end mx-1">Speichern</button>
                                     <a href="/shopware/produktklasse/delete/{{ $productclass->id }}"
                                        class="btn btn-danger float-end mx-1">Löschen</a>
@@ -171,7 +180,9 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="wysiwygGerman border border-1" id="wysiwygGerman"></div>
+                                            <div class="wysiwygGerman border border-1" id="wysiwygGerman">
+                                                {{ $productclass->description }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -180,7 +191,9 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="wysiwygEnglish border border-1" id="wysiwygEnglish"></div>
+                                            <div class="wysiwygEnglish border border-1" id="wysiwygEnglish">
+                                                {{ $productclass->description_en }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

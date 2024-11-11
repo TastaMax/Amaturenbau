@@ -41,9 +41,11 @@ Route::post('/startup', [StartupController::class, 'store'])->name('startup');
 Route::get('/login', [AuthenticationController::class, 'index']);
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
+Route::get('/copy', [\App\Http\Controllers\Sync\ImageCopyController::class, 'copy']);
+
 Route::prefix('nifi')->group(function () {
-    Route::get('products', [NIFIController::class, 'getJsonProducts']);
-    Route::get('classes', [NIFIController::class, 'getJsonClasses']);
+    Route::get('ShopArticle', [NIFIController::class, 'getJsonProducts']);
+    Route::get('ShopGroups', [NIFIController::class, 'getJsonClasses']);
 });
 
 

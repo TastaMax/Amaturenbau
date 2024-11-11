@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sync;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ShopWare\ShopWareHelperController;
 use App\Models\SWProductClass;
+use Illuminate\Support\Facades\Storage;
 
 class ShopWareProductsController extends Controller
 {
@@ -36,6 +37,28 @@ class ShopWareProductsController extends Controller
 
             foreach ($products as $product) {
 
+                $images = [];
+                $pictures = $product->pictures()->get();
+
+                if(count($pictures) == 0)
+                {
+                    $pictures = $productClass->pictures()->get();
+
+                    foreach ($pictures as $picture) {
+                        $images[] = [
+                            "URL" => 'http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/'.$picture->file,
+                            "folderName" => $productClass->title
+                        ];
+                    }
+                }else{
+                    foreach ($pictures as $picture) {
+                        $images[] = [
+                            "URL" => 'http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/product_pictures/'.$picture->file,
+                            "folderName" => $product->articlenumber
+                        ];
+                    }
+                }
+
                 $variantValues = $product->variantValues;
                 $options = [];
                 $pos = 10;
@@ -49,13 +72,25 @@ class ShopWareProductsController extends Controller
                         dd($variantValues, $variantHeaders);
                     }
 
-                    $options[] = [
-                        'name' => $variantHeader->title,
-                        'value' => $variantValue->value,
-                        'position' => $pos,
-                        'name_enGB' => $variantHeader->title_en,
-                        'value_enGB' => $variantValue->value_en,
-                    ];
+                    if(!isset($variantValue->value) || $variantValue->value == '')
+                    {
+                        $options[] = [
+                            'name' => $variantHeader->title,
+                            'value' => '-',
+                            'position' => $pos,
+                            'name_enGB' => $variantHeader->title_en,
+                            'value_enGB' => '-',
+                        ];
+                    }else{
+                        $options[] = [
+                            'name' => $variantHeader->title,
+                            'value' => $variantValue->value,
+                            'position' => $pos,
+                            'name_enGB' => $variantHeader->title_en,
+                            'value_enGB' => $variantValue->value_en,
+                        ];
+                    }
+
                     $pos += 10;
                 }
 
@@ -68,25 +103,22 @@ class ShopWareProductsController extends Controller
 
                     // Allgemeine Informationen
                     'id' => $product->sw_id,
-                    'name' => $category->title,
+                    'name' => $product->title,
                     'parentId' => $productClass->sw_id,
                     "productNumber" => $product->articlenumber,
                     'translations' => [
                         'en-GB' => [
-                            'name' => $category->title_en
+                            'name' => $product->title_en
                         ]
                     ],
 
                     // Optionen
                     'options' => $options,
 
+                    'properties' => $options,
+
                     // Bilder (placeholder, adjust based on your logic)
-                    'Images' => [
-                        [
-                            "URL" => "https://data.shop.ass-automation.com/pictures/1-000-05-00_I.png",
-                            "folderName" => "SWM"
-                        ]
-                    ],
+                    'Images' => $images,
 
                     // Preis Informationen
                     'markAsTopseller' => false,
@@ -112,6 +144,8 @@ class ShopWareProductsController extends Controller
                 ];
             }
         });
+
+        Storage::disk('local')->put('export.json', json_encode($export, JSON_PRETTY_PRINT));
 
         return $export;
     }

@@ -7,12 +7,10 @@
     "require": {
         "php": "^8.2",
         "ext-dom": "*",
-        "ext-ldap": "*",
-        "directorytree/ldaprecord-laravel": "^v3.3.2",
-        "guzzlehttp/guzzle": "^7.8.1",
-        "laravel/framework": "^v10.48.10",
+        "guzzlehttp/guzzle": "^7.9.2",
+        "laravel/framework": "^v10.48.22",
         "laravel/sanctum": "^v3.3.3",
-        "laravel/tinker": "^v2.9.0",
+        "laravel/tinker": "^v2.10.0",
         "league/csv": "^9.15.0"
     },
     "require-dev": {
@@ -21,7 +19,7 @@
         "laravel/sail": "^v1.29.1",
         "mockery/mockery": "^1.6.11",
         "nunomaduro/collision": "^v7.10.0",
-        "phpunit/phpunit": "^10.5.20",
+        "phpunit/phpunit": "^10.5.38",
         "spatie/laravel-ignition": "^2.7.0"
     },
     "autoload": {

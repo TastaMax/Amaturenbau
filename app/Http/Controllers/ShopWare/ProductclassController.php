@@ -56,6 +56,7 @@ class ProductclassController extends Controller
             $formattedProductclass[] = [
                 'id' => $productclass['id'],
                 'title' => $productclass['title'],
+                'rubrik' => $productclass['rubrik'],
                 'status' => $status,
                 'created_at' => $created_at->format('Y-m-d H:i:s')
             ];

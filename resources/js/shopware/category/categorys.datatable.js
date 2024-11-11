@@ -5,6 +5,7 @@ if(document.getElementById('categorysDatatable')) {
         { label: 'Nummer', field: 'id', width: 35},
         { label: 'Titel', field: 'title' },
         { label: 'Sync', field: 'status', width: 50 },
+        { label: 'Aktiviert', field: 'active', width: 50 },
         { label: 'Datum', field: 'created_at', width: 300 },
         { label: 'Aktion', field: 'action', sort: false, width: 150 }
     ];
@@ -18,6 +19,7 @@ if(document.getElementById('categorysDatatable')) {
             id: parseInt(category.id),
             title: category.title,
             status: category.status,
+            active: category.active,
             created_date: Date.parse(category.created_at),
             action: `<a href="/shopware/kategorie/editieren/${category.id}" class="btn btn-primary btn-sm">Details</a>`
         }),

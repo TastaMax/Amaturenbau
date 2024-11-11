@@ -23,11 +23,17 @@ class SWProduct extends Model
         'meta_keywords',
         'sw_id',
         'sw_edited',
-        'sw_deleted'
+        'sw_deleted',
+        'sw_active',
     ];
 
     public function variantValues()
     {
         return $this->hasMany(SWVariantValue::class, 'swProduct_id', 'id')->orderBy('pos');
+    }
+
+    public function pictures()
+    {
+        return $this->hasMany(SWPicture::class, 'assignment_id', 'id')->where('type', 0)->orderBy('pos', 'asc');
     }
 }

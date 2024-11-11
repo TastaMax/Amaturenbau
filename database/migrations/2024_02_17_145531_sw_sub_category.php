@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('sw_id');
             $table->boolean('sw_edited')->default(0);
             $table->boolean('sw_deleted')->default(0);
+            $table->boolean('sw_active')->default(0);
 
             $table->timestamps();
         });

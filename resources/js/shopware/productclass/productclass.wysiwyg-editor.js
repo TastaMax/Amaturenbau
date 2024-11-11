@@ -48,6 +48,8 @@ function ready() {
         const wysiwygElementGerman = document.getElementsByClassName('wysiwygGerman')[0];
         const instanceWYSIWYGGerman = new WYSIWYG(wysiwygElementGerman, wysiwygConfig);
 
+        instanceWYSIWYGGerman.value
+
         const wysiwygElementEnglish = document.getElementsByClassName('wysiwygEnglish')[0];
         const instanceWYSIWYGEnglish = new WYSIWYG(wysiwygElementEnglish, wysiwygConfig);
     }

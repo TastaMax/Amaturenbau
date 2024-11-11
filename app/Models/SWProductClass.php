@@ -16,6 +16,8 @@ class SWProductClass extends Model
         'swSubCategory_id',
         'title',
         'title_en',
+        'productnumber',
+        'rubrik',
         'description',
         'description_en',
         'datasheet',
@@ -24,7 +26,8 @@ class SWProductClass extends Model
         'meta_keywords',
         'sw_id',
         'sw_edited',
-        'sw_deleted'
+        'sw_deleted',
+        'sw_active',
     ];
 
     public function subCategory()

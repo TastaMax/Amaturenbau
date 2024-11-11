@@ -133,11 +133,13 @@ class CategoryController extends Controller
         foreach ($categorys as $category)
         {
             $status = $category->sw_deleted ? '<i class="fa-solid fa-trash"></i>' : ($category->sw_edited ? '<i class="fa-solid fa-clock"></i>' : '<i class="fa-solid fa-check"></i>');
+            $active = $category->sw_active ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-xmark"></i>';
             $created_at = new DateTime($category['created_at']);
             $formattedCategorys[] = [
                 'id' => $category['id'],
                 'title' => $category['title'],
                 'status' => $status,
+                'active' => $active,
                 'created_at' => $created_at->format('Y-m-d H:i:s')
             ];
         }
@@ -166,11 +168,13 @@ class CategoryController extends Controller
         foreach ($subCategorys as $subCategory)
         {
             $status = $subCategory->sw_deleted ? '<i class="fa-solid fa-trash"></i>' : ($subCategory->sw_edited ? '<i class="fa-solid fa-clock"></i>' : '<i class="fa-solid fa-check"></i>');
+            $active = $subCategory->sw_active ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-xmark"></i>';
             $created_at = new DateTime($subCategory['created_at']);
             $formattedSubCategorys[] = [
                 'id' => $subCategory['id'],
                 'title' => $subCategory['title'],
                 'status' => $status,
+                'active' => $active,
                 'created_at' => $created_at->format('Y-m-d H:i:s')
             ];
         }

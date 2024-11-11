@@ -20,6 +20,7 @@ class SWCategory extends Model
         'meta_keywords',
         'sw_id',
         'sw_edited',
-        'sw_deleted'
+        'sw_deleted',
+        'sw_active',
     ];
 }

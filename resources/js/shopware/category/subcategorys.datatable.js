@@ -8,6 +8,7 @@ if(document.getElementById('subCategorysObtainDatatable')) {
         { label: 'Nummer', field: 'id', width: 35},
         { label: 'Titel', field: 'title' },
         { label: 'Sync', field: 'status', width: 50 },
+        { label: 'Aktiviert', field: 'active', width: 50 },
         { label: 'Datum', field: 'created_at', width: 300 },
         { label: 'Aktion', field: 'action', sort: false, width: 150 }
     ];
@@ -21,6 +22,7 @@ if(document.getElementById('subCategorysObtainDatatable')) {
             id: parseInt(subcategory.id),
             title: subcategory.title,
             status: subcategory.status,
+            active: category.active,
             created_date: Date.parse(subcategory.created_at),
             action: `<a href="/shopware/unterkategorie/editieren/${subcategory.id}" class="btn btn-primary btn-sm">Details</a>`
         }),

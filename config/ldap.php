@@ -41,10 +41,6 @@ return [
             'sasl_options' => [
                 // 'mech' => 'GSSAPI',
             ],
-            'options' => [
-                // See: http://php.net/ldap_set_option
-                LDAP_OPT_X_TLS_REQUIRE_CERT => false
-            ]
         ],
 
     ],
