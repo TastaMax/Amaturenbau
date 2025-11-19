@@ -28,6 +28,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/shopware/sync/categories', [\App\ShopWare\Agent\CategorySyncController::class, 'syncCategories']);
+Route::get('/shopware/sync/variants', [\App\ShopWare\Agent\VariantSyncController::class, 'syncVariants']);
+Route::get('/shopware/sync/productclasses', [\App\ShopWare\Agent\ProductclassSyncController::class, 'syncProductClasses']);
+Route::get('/shopware/sync/products', [\App\ShopWare\Agent\ProductSyncController::class, 'syncProducts']);
+Route::get('/shopware/sync/images', [\App\ShopWare\Agent\ImageSyncController::class, 'syncImages']);
+
+Route::prefix('neu')->group(function () {
+    Route::get('/sync', [\App\Http\Controllers\NEU\ShopWareSyncController::class, 'index']);
+});
 
 /*
  * Startup
@@ -132,9 +141,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/subcategory', [SyncController::class, 'subcategory']);
             Route::get('/product', [SyncController::class, 'product']);
             Route::get('/migrate', [MigrationController::class, 'index'])->name('sync');
+            Route::get('/migrate-selection', [MigrationController::class, 'selectionImport'])->name('sync');
             //Route::get('/migrate-category', [MigrationCategoryController::class, 'migrate']);
             //Route::get('/migrate-productclass', [MigrationProductclassController::class, 'migrate']);
             //Route::get('/migrate-product', [MigrationProductController::class, 'migrate']);
+            Route::get('/maincategory', [\App\Http\Controllers\Sync\ShopWareMainCategoryController::class, 'syncMainCategory']);
         });
 
     });

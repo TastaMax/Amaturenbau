@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Startup;
 use App\Http\Controllers\Controller;
 use App\Models\CustomeLog;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use App\Services\ShopwareApiClient;
+use App\ShopWare\Services\ShopwareApiClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Artisan;
 
 class StartupController extends Controller
 {

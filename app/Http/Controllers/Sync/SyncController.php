@@ -7,7 +7,7 @@ use App\Models\SWCategory;
 use App\Models\SWProductClass;
 use App\Models\SWSubCategory;
 use App\Models\SWVariantCache;
-use App\Services\ShopwareApiClient;
+use App\ShopWare\Services\ShopwareApiClient;
 
 class SyncController extends Controller
 {

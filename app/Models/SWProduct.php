@@ -27,6 +27,11 @@ class SWProduct extends Model
         'sw_active',
     ];
 
+    public function productClass()
+    {
+        return $this->belongsTo(SWProductClass::class, 'swProductClass_id', 'id');
+    }
+
     public function variantValues()
     {
         return $this->hasMany(SWVariantValue::class, 'swProduct_id', 'id')->orderBy('pos');
@@ -34,6 +39,6 @@ class SWProduct extends Model
 
     public function pictures()
     {
-        return $this->hasMany(SWPicture::class, 'assignment_id', 'id')->where('type', 0)->orderBy('pos', 'asc');
+        return $this->hasMany(SWPicture::class, 'assignment_id', 'id')->where('type', 0)->orderBy('pos');
     }
 }

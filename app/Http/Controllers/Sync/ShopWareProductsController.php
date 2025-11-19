@@ -22,7 +22,7 @@ class ShopWareProductsController extends Controller
 
         // Efficiently fetch product classes and their related data using eager loading
         $productClasses = SWProductClass::with(['subCategory.category', 'products.variantValues', 'variantHeaders'])
-            ->get();
+            ->where('sw_active', 1)->get();
 
         if ($productClasses->isEmpty()) {
             return $export;
@@ -36,6 +36,11 @@ class ShopWareProductsController extends Controller
             $variantHeaders = $productClass->variantHeaders;
 
             foreach ($products as $product) {
+
+                if($product->sw_active == 0)
+                {
+                    continue;
+                }
 
                 $images = [];
                 $pictures = $product->pictures()->get();
@@ -60,38 +65,57 @@ class ShopWareProductsController extends Controller
                 }
 
                 $variantValues = $product->variantValues;
+                $properties = [];
                 $options = [];
-                $pos = 10;
+                $pos = 1;
 
                 foreach ($variantValues as $variantValue) {
                     $variantHeader = $variantHeaders->where('pos', $variantValue->pos)->first();
 
-                    if(!isset($variantHeader))
-                    {
-                        //Wenn Positionen der Values nicht mit den Headers matcht großes Problem!
+                    if (!isset($variantHeader)) {
+                        // Wenn Positionen der Values nicht mit den Headers matcht, großes Problem!
                         dd($variantValues, $variantHeaders);
                     }
 
-                    if(!isset($variantValue->value) || $variantValue->value == '')
-                    {
-                        $options[] = [
-                            'name' => $variantHeader->title,
-                            'value' => '-',
-                            'position' => $pos,
-                            'name_enGB' => $variantHeader->title_en,
-                            'value_enGB' => '-',
-                        ];
-                    }else{
-                        $options[] = [
-                            'name' => $variantHeader->title,
-                            'value' => $variantValue->value,
-                            'position' => $pos,
-                            'name_enGB' => $variantHeader->title_en,
-                            'value_enGB' => $variantValue->value_en,
-                        ];
+                    if (!isset($variantValue->value) || $variantValue->value == '') {
+                        if ($variantHeader->selectionType == 0) {
+                            $options[] = [
+                                'name' => $variantHeader->title,
+                                'value' => '-',
+                                'position' => $pos,
+                                'name_enGB' => $variantHeader->title_en,
+                                'value_enGB' => '-',
+                            ];
+                        } else {
+                            $properties[] = [
+                                'name' => $variantHeader->title,
+                                'value' => '-',
+                                'position' => $pos,
+                                'name_enGB' => $variantHeader->title_en,
+                                'value_enGB' => '-',
+                            ];
+                        }
+                    } else {
+                        if ($variantHeader->selectionType == 0) {
+                            $options[] = [
+                                'name' => $variantHeader->title,
+                                'value' => $variantValue->value,
+                                'position' => $pos,
+                                'name_enGB' => $variantHeader->title_en,
+                                'value_enGB' => $variantValue->value_en,
+                            ];
+                        } else {
+                            $properties[] = [
+                                'name' => $variantHeader->title,
+                                'value' => $variantValue->value,
+                                'position' => $pos,
+                                'name_enGB' => $variantHeader->title_en,
+                                'value_enGB' => $variantValue->value_en,
+                            ];
+                        }
                     }
 
-                    $pos += 10;
+                    $pos += 1;
                 }
 
                 $export[] = [
@@ -103,19 +127,19 @@ class ShopWareProductsController extends Controller
 
                     // Allgemeine Informationen
                     'id' => $product->sw_id,
-                    'name' => $product->title,
+                    'name' => $product->articlenumber,
                     'parentId' => $productClass->sw_id,
                     "productNumber" => $product->articlenumber,
                     'translations' => [
                         'en-GB' => [
-                            'name' => $product->title_en
+                            'name' => $product->articlenumber
                         ]
                     ],
 
                     // Optionen
                     'options' => $options,
 
-                    'properties' => $options,
+                    'properties' => $properties,
 
                     // Bilder (placeholder, adjust based on your logic)
                     'Images' => $images,

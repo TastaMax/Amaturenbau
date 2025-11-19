@@ -97,16 +97,85 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <select class="select" name="shopwaredefaultcategory" data-mdb-placeholder="Kategorie" data-mdb-select-init>
-                                                @if($shopwareDefaultCategory === '') <option value="" selected disabled> Keine Kategorie gewählt </option> @endif
-                                                @foreach($shopwareCategory['body']['data'] as $category)
-                                                    <option value="{{ $category['id'] }}"
-                                                            data-mdb-secondary-text="{{ $category['id'] }}"
-                                                            @if($shopwareDefaultCategory === $category['id']) selected @endif>{{ $category['attributes']['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                            <label class="form-label select-label">Standard Kategorie</label>
+                                            <div class="mb-3">
+                                                <select class="select" name="shopwaredefaultcategory" data-mdb-placeholder="Kategorie" data-mdb-select-init>
+                                                    @if($shopwareDefaultCategory === '') <option value="" selected disabled> Keine Kategorie gewählt </option> @endif
+                                                    @foreach($shopwareCategory['body']['data'] as $category)
+                                                        <option value="{{ $category['id'] }}"
+                                                                data-mdb-secondary-text="{{ $category['id'] }}"
+                                                                @if($shopwareDefaultCategory === $category['id']) selected @endif>{{ $category['attributes']['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label class="form-label select-label">Standard Kategorie</label>
+                                            </div>
                                         @endif
+
+                                        @if(!$shopwareConnection || !$shopwareToken)
+                                            <div class="form-outline mb-3" data-mdb-input-init>
+                                                <input type="text" class="form-control is-invalid" id="shopwaredefaultmanufacturer"
+                                                       name="shopwaredefaultmanufacturer" value="{{ env('SHOPWARE_DEFAULT_MANUFACTURER')  }}" disabled required/>
+                                                <label for="shopwaredefaultmanufacturer" class="form-label">Hersteller</label>
+                                                <div class="invalid-feedback"> Leider kann der Hersteller aufgrund der
+                                                    Verbindung oder dem Token nicht geändert werden!
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="mb-3">
+                                                <select class="select" name="shopwaredefaultmanufacturer" data-mdb-placeholder="Hersteller" data-mdb-select-init>
+                                                    @if($shopwareDefaultManufacturer === '') <option value="" selected disabled> Keine Kategorie gewählt </option> @endif
+                                                    @foreach($shopwareManufacturers['body']['data'] as $manufacturer)
+                                                        <option value="{{ $manufacturer['id'] }}"
+                                                                data-mdb-secondary-text="{{ $manufacturer['id'] }}"
+                                                                @if($shopwareDefaultManufacturer === $manufacturer['id']) selected @endif>{{ $manufacturer['attributes']['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label class="form-label select-label">Standard Hersteller</label>
+                                            </div>
+                                        @endif
+
+                                        @if(!$shopwareConnection || !$shopwareToken)
+                                            <div class="form-outline mb-3" data-mdb-input-init>
+                                                <input type="text" class="form-control is-invalid" id="shopwaredefaulttax"
+                                                       name="shopwaredefaulttax" value="{{ env('SHOPWARE_DEFAULT_TAX') }}" disabled required/>
+                                                <label for="shopwaredefaulttax" class="form-label">Steuersatz</label>
+                                                <div class="invalid-feedback"> Leider kann der Steuersatz aufgrund der Verbindung oder dem Token nicht geändert werden!</div>
+                                            </div>
+                                        @else
+                                            <div class="mb-3">
+                                                <select class="select" name="shopwaredefaulttax" data-mdb-placeholder="Steuersatz" data-mdb-select-init>
+                                                    @if($shopwareDefaultTax === '') <option value="" selected disabled> Kein Steuersatz gewählt </option> @endif
+                                                    @foreach($shopwareTaxes['body']['data'] as $tax)
+                                                        <option value="{{ $tax['id'] }}"
+                                                                data-mdb-secondary-text="{{ $tax['id'] }}"
+                                                                @if($shopwareDefaultTax === $tax['id']) selected @endif>{{ $tax['attributes']['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label class="form-label select-label">Standard Steuersatz</label>
+                                            </div>
+                                        @endif
+
+                                        @if(!$shopwareConnection || !$shopwareToken)
+                                            <div class="form-outline mb-3" data-mdb-input-init>
+                                                <input type="text" class="form-control is-invalid" id="shopwaredefaultcurrency"
+                                                       name="shopwaredefaultcurrency" value="{{ env('SHOPWARE_DEFAULT_CURRENCY') }}" disabled required/>
+                                                <label for="shopwaredefaultcurrency" class="form-label">Währung</label>
+                                                <div class="invalid-feedback"> Leider kann die Währung aufgrund der Verbindung oder dem Token nicht geändert werden!</div>
+                                            </div>
+                                        @else
+                                            <div class="mb-3">
+                                                <select class="select" name="shopwaredefaultcurrency" data-mdb-placeholder="Währung" data-mdb-select-init>
+                                                    @if($shopwareDefaultCurrency === '') <option value="" selected disabled> Keine Währung gewählt </option> @endif
+                                                    @foreach($shopwareCurrencys['body']['data'] as $currency)
+                                                        <option value="{{ $currency['id'] }}"
+                                                                data-mdb-secondary-text="{{ $currency['id'] }}"
+                                                                @if($shopwareDefaultCurrency === $currency['id']) selected @endif>{{ $currency['attributes']['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label class="form-label select-label">Standard Währung</label>
+                                            </div>
+                                        @endif
+
+
                                     </div>
 
 

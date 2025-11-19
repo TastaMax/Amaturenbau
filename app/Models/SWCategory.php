@@ -23,4 +23,9 @@ class SWCategory extends Model
         'sw_deleted',
         'sw_active',
     ];
+
+    public function subcategories()
+    {
+        return $this->hasMany(SWSubCategory::class, 'swCategory_id', 'id');
+    }
 }

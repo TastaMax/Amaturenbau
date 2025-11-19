@@ -36,6 +36,7 @@ return [
     'shopware_default_tax' => env('SHOPWARE_DEFAULT_TAX'),
     'shopware_default_manufacturer' => env('SHOPWARE_DEFAULT_MANUFACTURER'),
     'shopware_default_currency' => env('SHOPWARE_DEFAULT_CURRENCY'),
+    'shopware_default_media_folder' => env('SHOPWARE_DEFAULT_MEDIA_FOLDER'),
 
     /*
     |--------------------------------------------------------------------------

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('title_en')->nullable();
             $table->integer('pos');
+            $table->integer('selectionType')->default(0);
 
             $table->timestamps();
         });

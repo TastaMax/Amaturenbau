@@ -24,7 +24,7 @@ class LogsStorageController extends Controller
         $id = 0;
 
         if (file_exists($logFilePath)) {
-            $lines = array_reverse(file($logFilePath));
+            $lines = array_slice(array_reverse(file($logFilePath)), 0, 50);
             foreach ($lines as $line) {
                 preg_match('/^\[(.*?)\] (.*?)\.(.*?): (.*?)$/', $line, $matches);
 

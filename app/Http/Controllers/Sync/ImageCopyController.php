@@ -15,7 +15,7 @@ class ImageCopyController extends Controller
 
     public function copy()
     {
-        $basePath = 'http://data.shop.berndarmaturenbau.de.dedivirt3120.your-server.de/pictures/';
+        $basePath = '';
         $localStoragePath = 'public/pictures/'; // Der Pfad im Storage, wo die Bilder gespeichert werden sollen
 
         $productClasses = SWProductClass::with(['subCategory.category', 'products.variantValues', 'variantHeaders'])

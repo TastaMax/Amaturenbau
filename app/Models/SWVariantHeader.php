@@ -18,4 +18,9 @@ class SWVariantHeader extends Model
         'title_en',
         'pos',
     ];
+
+    public function swProductClass()
+    {
+        return $this->belongsTo(SWProductClass::class, 'swProductClass_id', 'id');
+    }
 }

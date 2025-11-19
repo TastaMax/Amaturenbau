@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sync;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class NIFIController extends Controller
 {
@@ -13,9 +14,11 @@ class NIFIController extends Controller
         return $swProducts->getProducts();
     }
 
-    public function getJsonClasses()
+    public function getJsonClasses(Request $request)
     {
+        $withoutpictures = $request->query('withoutpictures', false); // Standardwert: false
         $swClasses = new ShopWareClassesController();
-        return $swClasses->getClasses();
+        $json = json_encode($swClasses->getClasses($withoutpictures), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return response($json)->header('Content-Type', 'application/json; charset=UTF-8');
     }
 }

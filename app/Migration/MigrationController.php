@@ -25,6 +25,63 @@ class MigrationController extends Controller
         $this->swHelper = new ShopWareHelperController();
     }
 
+    public function selectionImport()
+    {
+        $csv = $this->csv($this->getFile(storage_path('migration/VariantsChanges.csv')));
+        foreach ($csv as $daten) {
+            $rubrik = str_replace("-", ".", $daten['Blatt']);
+            $swproductclasses = SWProductClass::where('rubrik', $rubrik)->first();
+
+            // Überprüfen, ob ein passender Eintrag existiert
+            if (!$swproductclasses) {
+                continue; // Überspringen, falls keine passende Rubrik gefunden wurde
+            }
+
+            $id = $swproductclasses->id;
+
+            // Überprüfung der Spalten von A bis F
+            foreach (['A', 'B', 'C', 'D', 'E', 'F'] as $spalte) {
+                if (!empty($daten[$spalte])) {
+                    SWVariantHeader::where('swProductClass_id', $id)
+                        ->where('pos', $this->numbers($daten[$spalte]))
+                        ->update(['selectionType' => true]);
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    private function numbers($string): int
+    {
+        $mapping = [
+            "Spalte A" => 1,
+            "Spalte B" => 2,
+            "Spalte C" => 3,
+            "Spalte D" => 4,
+            "Spalte E" => 5,
+            "Spalte F" => 6,
+            "Spalte G" => 7,
+            "Spalte H" => 8,
+            "Spalte I" => 9,
+            "Spalte J" => 10,
+            "Spalte K" => 11,
+            "Spalte L" => 12,
+            "Spalte M" => 13,
+            "Spalte N" => 14,
+            "Spalte O" => 15,
+            "Spalte P" => 16,
+            "Spalte Q" => 17,
+        ];
+
+        if (array_key_exists($string, $mapping)) {
+            return $mapping[$string];
+        }
+
+        return 0;
+    }
+
     public function index()
     {
         $maincategorys = [];
@@ -83,6 +140,7 @@ class MigrationController extends Controller
                     'meta_title' => $hauptKategorieDE,
                     'sw_id' => $this->swHelper->generateUUID(32),
                     'sw_edited' => true,
+                    'sw_active' => true,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -103,6 +161,7 @@ class MigrationController extends Controller
                     'title' => $kategorieDE,
                     'title_en' => $kategorieEN,
                     'meta_title' => $kategorieDE,
+                    'sw_active' => true,
                     'sw_id' => $this->swHelper->generateUUID(32),
                     'sw_edited' => true,
                     'created_at' => now(),
@@ -178,6 +237,7 @@ class MigrationController extends Controller
 
                 'sw_id' => $this->swHelper->generateUUID(32),
                 'sw_edited' => true,
+                'sw_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -207,15 +267,14 @@ class MigrationController extends Controller
                 $variantHeaders[] = [
                     'id' => count($variantHeaders)+1,
                     'swProductClass_id' => $id,
-                    'title' => $titles['German'],
-                    'title_en' => $titles['English'],
+                    'title' => $titles['German'].' '.$titles['Identifier'],
+                    'title_en' => $titles['English'].' '.$titles['Identifier'],
                     'pos' => $tmpid,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
                 $tmpid++;
             }
-
             $isArticles = false;
             foreach ($csvVariants as $key => $values)
             {
@@ -229,6 +288,7 @@ class MigrationController extends Controller
                     'serie' => $this->removeBreaks($values['Serie']),
                     'price' => $decimalValue,
                     'sw_id' => $this->swHelper->generateUUID(32),
+                    'sw_active' => true,
                     'sw_edited' => true,
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -286,8 +346,8 @@ class MigrationController extends Controller
             $this->variantValues[] = [
                 'id' => count($this->variantValues)+1,
                 'swProduct_id' => $productid,
-                'value' => $this->removeBreaks($variantValue),
-                'value_en' => $this->removeBreaks($variantValue),
+                'value' => $this->removeBreaks($this->sanitizeJsonString($variantValue)),
+                'value_en' => $this->removeBreaks($this->sanitizeJsonString($variantValue)),
                 'pos' => $pos,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -303,7 +363,7 @@ class MigrationController extends Controller
         $csvHeader = $this->getcsvheader($csv);
         $datasheetheader = [];
         for ($i = 0; $i < count($csvHeader) - 4; $i++) {
-            $datasheetheader[] = utf8_encode(trim($csvHeader[$i]));
+            $datasheetheader[] = mb_convert_encoding(trim($csvHeader[$i]), 'UTF-8', 'ISO-8859-1');
         }
         return $datasheetheader;
 }
@@ -365,5 +425,23 @@ class MigrationController extends Controller
             $identifier = trim($parts[2]);
 
             return array("German" => $germanPart, "English" => $englishPart, "Identifier" => $identifier);
+    }
+
+    function sanitizeJsonString($csv)
+    {
+        // Auto-Encoding erkennen und konvertieren, wenn nötig
+        $encoding = mb_detect_encoding($csv, ['UTF-8', 'Windows-1252', 'ISO-8859-1'], true);
+        if ($encoding !== 'UTF-8') {
+            $csv = mb_convert_encoding($csv, 'UTF-8', $encoding);
         }
+
+        // Entfernt unsichtbare Steuerzeichen wie \r, \x00 etc.
+        $csv = preg_replace('/[\x00-\x1F\x7F]/u', '', $csv);
+
+        // Wandelt typografische Anführungszeichen um
+        $csv = str_replace(['“', '”', '„', '«', '»'], '"', $csv);
+
+        return $csv;
+    }
+
 }
